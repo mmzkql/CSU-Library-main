@@ -159,7 +159,6 @@ class CSULibrary(object):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='CSU图书馆')
-
     parser.add_argument('--action', type=str, help='操作类型')
     parser.add_argument('--userid', type=str, help='账号')
     parser.add_argument('--password', type=str, help='密码')
@@ -170,6 +169,12 @@ if __name__ == "__main__":
                         level=logging.INFO, format=LOG_FORMAT)
 
     helper = CSULibrary(args.userid, args.password)
-    # 故意不做异常处理，这样 Github 便会发邮件提醒
-    if args.action == 'reserve':
-        helper.reserve()
+
+    try:
+        if args.action == 'reserve':
+            helper.reserve()
+            logging.info("Reservation successful for user {}".format(args.userid))
+    except ReservationError as e:
+        logging.error("Reservation failed for user {}: {}".format(args.userid, e))
+    except Exception as e:
+        logging.error("An unexpected error occurred for user {}: {}".format(args.userid, e))
