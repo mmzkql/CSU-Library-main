@@ -159,6 +159,7 @@ class CSULibrary(object):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='CSU图书馆')
+
     parser.add_argument('--action', type=str, help='操作类型')
     parser.add_argument('--userid', type=str, help='账号')
     parser.add_argument('--password', type=str, help='密码')
@@ -169,10 +170,10 @@ if __name__ == "__main__":
                         level=logging.INFO, format=LOG_FORMAT)
 
     helper = CSULibrary(args.userid, args.password)
-
+    # 添加异常处理
     try:
         if args.action == 'reserve':
             helper.reserve()
-            logging.info("Reservation successful for user {}".format(args.userid))
     except Exception as e:
-        logging.error("An unexpected error occurred for user {}: {}".format(args.userid, e))
+        # 如果需要将异常信息记录在日志中，可以使用下面的代码
+        logging.error(f"An error occurred: {str(e)}")
