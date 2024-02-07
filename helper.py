@@ -174,7 +174,5 @@ if __name__ == "__main__":
         if args.action == 'reserve':
             helper.reserve()
             logging.info("Reservation successful for user {}".format(args.userid))
-    except ReservationError as e:
-        logging.error("Reservation failed for user {}: {}".format(args.userid, e))
     except Exception as e:
         logging.error("An unexpected error occurred for user {}: {}".format(args.userid, e))
